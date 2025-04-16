@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.controller.EmployeeController">
+
+    <top>
+        <VBox spacing="8">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label fx:id="nameLabel" text="Name: " />
+            <Label fx:id="emailLabel" text="Email: " />
+            <Label fx:id="jobTitleLabel" text="Job Title: " />
+            <Label fx:id="divisionLabel" text="Division: " />
+            <Label fx:id="addressLabel" text="Address: " />
+            <Label fx:id="phoneLabel" text="Phone: " />
+            <Label fx:id="demographicLabel" text="Gender/Race/DOB: " />
+            <Label fx:id="hireDateLabel" text="Hire Date: " />
+            <Label fx:id="salaryLabel" text="Salary: " />
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="5">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label text="Payroll History" />
+            <TableView fx:id="payrollTable" prefHeight="300">
+                <columns>
+                    <TableColumn fx:id="dateCol" text="Pay Date" />
+                    <TableColumn fx:id="earningsCol" text="Earnings" />
+                    <TableColumn fx:id="fedTaxCol" text="Fed Tax" />
+                    <TableColumn fx:id="stateTaxCol" text="State Tax" />
+                    <TableColumn fx:id="retireCol" text="401k" />
+                    <TableColumn fx:id="healthCol" text="Health Care" />
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+</BorderPane>

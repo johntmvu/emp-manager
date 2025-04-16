@@ -1,0 +1,5 @@
+# Ignore compiled class files and build output
+/demo/target/
+
+# Ignore database config
+/demo/src/main/resources/db.properties
