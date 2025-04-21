@@ -6,7 +6,8 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.controller.AdminDashboardController">
+            fx:controller="com.example.controller.AdminDashboardController"
+            prefHeight="500.0" prefWidth="800.0">
 
     <top>
         <VBox spacing="8">

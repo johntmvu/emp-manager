@@ -8,10 +8,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Properties;
 
 public class AdminDashboardController {
 
@@ -33,9 +35,25 @@ public class AdminDashboardController {
     @FXML
     private TableColumn<Employee, String> divisionCol;
 
-    private String DB_URL = "jdbc:mysql://localhost:3306/employeedata";
-    private String DB_USER = "root";
-    private String DB_PASSWORD = "password";
+    private String DB_URL;
+    private String DB_USER;
+    private String DB_PASSWORD;
+
+    public AdminDashboardController() {
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("db.properties")) {
+            Properties prop = new Properties();
+            if (input != null) {
+                prop.load(input);
+                DB_URL = prop.getProperty("db.url");
+                DB_USER = prop.getProperty("db.user");
+                DB_PASSWORD = prop.getProperty("db.password");
+            } else {
+                throw new RuntimeException("db.properties file not found.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     public void initialize() {
