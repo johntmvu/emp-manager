@@ -1,6 +1,7 @@
 com/example/App.class
 com/example/controller/LoginController.class
 com/example/controller/EmployeeController.class
+com/example/model/PayrollRecord.class
 com/example/util/databaseUtil.class
-com/example/controller/PayrollRecord.class
-com/model/Employee.class
+com/example/controller/AdminDashboardController.class
+com/example/model/Employee.class

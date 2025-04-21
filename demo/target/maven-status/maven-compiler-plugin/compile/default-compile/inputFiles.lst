@@ -1,6 +1,7 @@
 /Users/John/Repos/emp-manager/demo/src/main/java/com/example/App.java
+/Users/John/Repos/emp-manager/demo/src/main/java/com/example/controller/AdminDashboardController.java
 /Users/John/Repos/emp-manager/demo/src/main/java/com/example/controller/EmployeeController.java
 /Users/John/Repos/emp-manager/demo/src/main/java/com/example/controller/LoginController.java
-/Users/John/Repos/emp-manager/demo/src/main/java/com/example/controller/PayrollRecord.java
+/Users/John/Repos/emp-manager/demo/src/main/java/com/example/model/Employee.java
+/Users/John/Repos/emp-manager/demo/src/main/java/com/example/model/PayrollRecord.java
 /Users/John/Repos/emp-manager/demo/src/main/java/com/example/util/databaseUtil.java
-/Users/John/Repos/emp-manager/demo/src/main/java/com/model/Employee.java
