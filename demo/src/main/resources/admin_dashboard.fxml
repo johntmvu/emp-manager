@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.controller.AdminDashboardController"
+            prefHeight="500.0" prefWidth="800.0">
+
+    <top>
+        <VBox spacing="8">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label text="Admin Dashboard - Employee Information" />
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="5">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label text="Employee List" />
+            <TableView fx:id="employeeTable" prefHeight="400">
+                <columns>
+                    <TableColumn fx:id="idCol" text="ID" />
+                    <TableColumn fx:id="nameCol" text="Name" />
+                    <TableColumn fx:id="emailCol" text="Email" />
+                    <TableColumn fx:id="jobTitleCol" text="Job Title" />
+                    <TableColumn fx:id="divisionCol" text="Division" />
+                    <TableColumn fx:id="salaryCol" text="Salary" />
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+</BorderPane>

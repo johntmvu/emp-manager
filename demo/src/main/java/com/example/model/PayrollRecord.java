@@ -1,4 +1,4 @@
-package com.example.controller;
+package com.example.model;
 
 import java.sql.Date;
 
