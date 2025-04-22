@@ -16,7 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-public class LoginController {
+public class loginController {
 
     @FXML
     private TextField emailField;
@@ -28,7 +28,7 @@ public class LoginController {
     private String DB_USER;
     private String DB_PASSWORD;
 
-    public LoginController() {
+    public loginController() {
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("db.properties")) {
             Properties prop = new Properties();
             if (input != null) {
