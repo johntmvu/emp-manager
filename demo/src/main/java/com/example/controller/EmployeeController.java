@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.model.PayrollRecord;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
