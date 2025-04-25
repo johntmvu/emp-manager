@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.controller.ReportController">
+    <top>
+        <HBox fx:id="monthPickerHBox" spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label text="Select Month:" />
+            <DatePicker fx:id="monthPicker" />
+        </HBox>
+    </top>
+    <center>
+        <VBox spacing="5">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Button fx:id="viewReportButton" text="View Report" onAction="#handleViewReport" />
+            <TableView fx:id="payStatementReportTable" prefHeight="300">
+                <columns>
+                    <TableColumn fx:id="payStatementReportTable_empIdCol" text="Employee ID" />
+                    <TableColumn fx:id="payStatementReportTable_nameCol" text="Name" />
+                    <TableColumn fx:id="payStatementReportTable_payDateCol" text="Pay Date" />
+                    <TableColumn fx:id="payStatementReportTable_earningsCol" text="Earnings" />
+                </columns>
+            </TableView>
+            <TableView fx:id="jobTitleReportTable" prefHeight="300">
+                <columns>
+                    <TableColumn fx:id="jobTitleReportTable_jobTitleCol" text="Job Title" />
+                    <TableColumn fx:id="jobTitleReportTable_totalPayCol" text="Total Pay" />
+                </columns>
+            </TableView>
+            <TableView fx:id="divisionReportTable" prefHeight="300">
+                <columns>
+                    <TableColumn fx:id="divisionReportTable_divisionCol" text="Division" />
+                    <TableColumn fx:id="divisionReportTable_totalPayCol" text="Total Pay" />
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+    <bottom>
+        <HBox spacing="5">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <children>
+                <Button fx:id="goHomeButton" text="Go Home" onAction="#handleGoHome"/>
+            </children>
+        </HBox>
+    </bottom>
+</BorderPane>

@@ -1,13 +1,19 @@
 package com.example.controller;
 
+import com.example.ReportTypes;
 import com.example.model.PayrollRecord;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.sql.*;
@@ -148,5 +154,28 @@ public class EmployeeController implements Initializable {
     // Gracefully handle null values
     private String safe(String input) {
         return input != null ? input : "N/A";
+    }
+
+    @FXML 
+    private void handleViewPayStatementReport(){
+        try {
+            // Load report
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/report.fxml"));
+            Parent root = loader.load();
+
+            ReportController reportController = loader.getController();
+            
+            reportController.setEmpId(empId);
+            reportController.setIsAdmin(false);
+            reportController.setReportType(ReportTypes.EmployeePayStatement);
+
+            Stage stage = (Stage) nameLabel.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Employee Pay Statements");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
