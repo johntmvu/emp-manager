@@ -37,4 +37,17 @@
             </TableView>
         </VBox>
     </center>
+
+    <bottom>
+        <HBox spacing="5">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <children>
+                <Button text="View Pay Statements" onAction="#handleViewPayStatementReport"/>
+                <Button text="View Job Title Payments" onAction="#handleViewJobTitlePaymentReport"/>
+                <Button text="View Division Payments" onAction="#handleViewDivisionPaymentReport"/>
+            </children>
+        </HBox>
+    </bottom>
 </BorderPane>

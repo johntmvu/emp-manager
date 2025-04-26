@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.ReportTypes;
 import com.example.model.Employee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,6 +13,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -124,5 +126,50 @@ public class AdminDashboardController {
         }
     }
 
+<<<<<<< HEAD
     
+=======
+    @FXML 
+    private void handleViewPayStatementReport(){
+        handleViewReport(ReportTypes.AdminPayStatement);    
+    }
+
+    @FXML 
+    private void handleViewJobTitlePaymentReport(){
+        handleViewReport(ReportTypes.AdminJobTitlePayment);    
+    }
+
+    @FXML 
+    private void handleViewDivisionPaymentReport(){
+        handleViewReport(ReportTypes.AdminDivisionPayment);    
+    }
+
+    private void handleViewReport(ReportTypes reportType){
+        try {
+            String reportTitle = "";
+            if (reportType == ReportTypes.AdminPayStatement)
+                reportTitle = "Admin Pay Statements";
+            else if (reportType == ReportTypes.AdminJobTitlePayment)
+                reportTitle = "Admin Job Title Payments";
+            else if (reportType == ReportTypes.AdminDivisionPayment)
+                reportTitle = "Admin Division Payments";
+
+            // Load report
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/report.fxml"));
+            Parent root = loader.load();
+
+            ReportController reportController = loader.getController();
+            
+            reportController.setIsAdmin(true);
+            reportController.setReportType(reportType);
+
+            Stage stage = (Stage) employeeTable.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle(reportTitle);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+>>>>>>> origin/main
 }
