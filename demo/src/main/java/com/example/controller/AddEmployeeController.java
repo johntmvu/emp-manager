@@ -32,6 +32,12 @@ public class AddEmployeeController {
     private String DB_USER;
     private String DB_PASSWORD;
 
+    private AdminDashboardController adminDashboardController;
+
+    public void setAdminDashboardController(AdminDashboardController adminDashboardController) {
+        this.adminDashboardController = adminDashboardController;
+    }
+
     public AddEmployeeController() {
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("db.properties")) {
             Properties prop = new Properties();
@@ -87,6 +93,11 @@ public class AddEmployeeController {
             if (rowsInserted > 0) {
                 showAlert("Success", "Employee added successfully.");
                 clearFields();
+
+                // Notify AdminDashboardController to refresh the employee list
+                if (adminDashboardController != null) {
+                    adminDashboardController.reloadEmployeeList();
+                }
             } else {
                 showAlert("Error", "Failed to add employee.");
             }

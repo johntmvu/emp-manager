@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -81,6 +82,9 @@ public class AdminDashboardController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/add_employee.fxml"));
             Parent root = loader.load();
 
+            AddEmployeeController addEmployeeController = loader.getController();
+            addEmployeeController.setAdminDashboardController(this);
+
             Stage stage = new Stage();
             stage.setTitle("Add New Employee");
             stage.setScene(new Scene(root));
@@ -88,6 +92,10 @@ public class AdminDashboardController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void reloadEmployeeList() {
+        loadEmployees();
     }
 
     private void loadEmployees() {
@@ -124,6 +132,44 @@ public class AdminDashboardController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void handleDeleteEmployee() {
+        Employee selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
+
+        if (selectedEmployee == null) {
+            showAlert("Error", "No employee selected. Please select an employee to delete.");
+            return;
+        }
+
+        String query = "DELETE FROM employees WHERE empid = ?";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, selectedEmployee.getId());
+            int rowsDeleted = stmt.executeUpdate();
+
+            if (rowsDeleted > 0) {
+                showAlert("Success", "Employee deleted successfully.");
+                reloadEmployeeList(); // Refresh the employee list
+            } else {
+                showAlert("Error", "Failed to delete the employee.");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Error", "An error occurred: " + e.getMessage());
+        }
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     @FXML 
