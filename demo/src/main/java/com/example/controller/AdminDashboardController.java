@@ -4,9 +4,13 @@ import com.example.model.Employee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 import java.io.InputStream;
 import java.sql.Connection;
@@ -69,6 +73,21 @@ public class AdminDashboardController {
         loadEmployees();
     }
 
+    @FXML
+    public void handleAddEmployee() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/add_employee.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Add New Employee");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void loadEmployees() {
         ObservableList<Employee> employees = FXCollections.observableArrayList();
 
@@ -104,4 +123,6 @@ public class AdminDashboardController {
             e.printStackTrace();
         }
     }
+
+    
 }
