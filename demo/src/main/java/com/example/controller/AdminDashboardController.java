@@ -75,6 +75,21 @@ public class AdminDashboardController {
         loadEmployees();
     }
 
+    @FXML
+    public void handleAddEmployee() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/add_employee.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Add New Employee");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void loadEmployees() {
         ObservableList<Employee> employees = FXCollections.observableArrayList();
 
