@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.controller.SearchEmployeeController"
+      prefHeight="300.0" prefWidth="400.0">
+
+    <Label text="Search Employee" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+    
+    <TextField fx:id="empIdField" promptText="Employee ID" />
+    <TextField fx:id="nameField" promptText="Name" />
+    <TextField fx:id="dobField" promptText="Date of Birth (YYYY-MM-DD)" />
+    <TextField fx:id="ssnField" promptText="SSN" />
+    
+    <Button text="Search" onAction="#handleSearch" />
+</VBox>

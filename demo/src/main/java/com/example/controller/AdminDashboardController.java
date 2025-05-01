@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -44,6 +45,9 @@ public class AdminDashboardController {
 
     @FXML
     private TableColumn<Employee, Double> salaryCol;
+
+    @FXML
+    private TextField searchField; // Add this field
 
     private String DB_URL;
     private String DB_USER;
@@ -190,6 +194,73 @@ public class AdminDashboardController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    @FXML
+    public void handleUpdateSalaries() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/update_salaries.fxml"));
+            Parent root = loader.load();
+
+            UpdateSalariesController updateSalariesController = loader.getController();
+            updateSalariesController.setAdminDashboardController(this);
+
+            Stage stage = new Stage();
+            stage.setTitle("Update Salaries");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void handleEditEmployee() {
+        Employee selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
+    
+        if (selectedEmployee == null) {
+            showAlert("Error", "No employee selected. Please select an employee to edit.");
+            return;
+        }
+    
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/edit_employee.fxml"));
+            Parent root = loader.load();
+    
+            EditEmployeeController editEmployeeController = loader.getController();
+            editEmployeeController.setEmployeeId(selectedEmployee.getId());
+            editEmployeeController.setAdminDashboardController(this);
+    
+            Stage stage = new Stage();
+            stage.setTitle("Edit Employee");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Error", "An error occurred: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void handleOpenSearchScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/search_employee.fxml"));
+            Parent root = loader.load();
+
+            SearchEmployeeController searchEmployeeController = loader.getController();
+            searchEmployeeController.setAdminDashboardController(this);
+
+            Stage stage = new Stage();
+            stage.setTitle("Search Employee");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateEmployeeTable(ObservableList<Employee> searchResults) {
+        employeeTable.setItems(searchResults);
     }
 
     @FXML 
