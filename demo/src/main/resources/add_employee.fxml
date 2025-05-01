@@ -14,5 +14,7 @@
     <TextField fx:id="emailField" promptText="Email" />
     <TextField fx:id="salaryField" promptText="Salary" />
     <TextField fx:id="ssnField" promptText="SSN" />
+    <TextField fx:id="jobTitleField" promptText="Job Title" />
+    <TextField fx:id="divisionField" promptText="Division" />
     <Button text="Add Employee" onAction="#handleAddEmployee" />
 </VBox>

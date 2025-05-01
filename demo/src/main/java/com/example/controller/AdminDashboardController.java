@@ -134,6 +134,7 @@ public class AdminDashboardController {
         }
     }
 
+
     @FXML
     public void handleDeleteEmployee() {
         Employee selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
@@ -143,21 +144,40 @@ public class AdminDashboardController {
             return;
         }
 
-        String query = "DELETE FROM employees WHERE empid = ?";
+        String deleteDivisionQuery = "DELETE FROM employee_division WHERE empid = ?";
+        String deleteJobTitleQuery = "DELETE FROM employee_job_titles WHERE empid = ?";
+        String deleteEmployeeQuery = "DELETE FROM employees WHERE empid = ?";
 
-        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+            // Start a transaction
+            conn.setAutoCommit(false);
 
-            stmt.setInt(1, selectedEmployee.getId());
-            int rowsDeleted = stmt.executeUpdate();
-
-            if (rowsDeleted > 0) {
-                showAlert("Success", "Employee deleted successfully.");
-                reloadEmployeeList(); // Refresh the employee list
-            } else {
-                showAlert("Error", "Failed to delete the employee.");
+            // Delete from employee_division table
+            try (PreparedStatement divisionStmt = conn.prepareStatement(deleteDivisionQuery)) {
+                divisionStmt.setInt(1, selectedEmployee.getId());
+                divisionStmt.executeUpdate();
             }
 
+            // Delete from employee_job_titles table
+            try (PreparedStatement jobTitleStmt = conn.prepareStatement(deleteJobTitleQuery)) {
+                jobTitleStmt.setInt(1, selectedEmployee.getId());
+                jobTitleStmt.executeUpdate();
+            }
+
+            // Delete from employees table
+            try (PreparedStatement employeeStmt = conn.prepareStatement(deleteEmployeeQuery)) {
+                employeeStmt.setInt(1, selectedEmployee.getId());
+                int rowsDeleted = employeeStmt.executeUpdate();
+
+                if (rowsDeleted > 0) {
+                    conn.commit(); // Commit the transaction
+                    showAlert("Success", "Employee deleted successfully.");
+                    reloadEmployeeList(); // Refresh the employee list
+                } else {
+                    conn.rollback(); // Rollback the transaction if no rows were deleted
+                    showAlert("Error", "Failed to delete the employee.");
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
             showAlert("Error", "An error occurred: " + e.getMessage());
@@ -214,4 +234,5 @@ public class AdminDashboardController {
             e.printStackTrace();
         }
     }
+
 }
