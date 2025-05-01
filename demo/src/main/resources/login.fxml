@@ -5,7 +5,9 @@
 
 <VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/21"
     xmlns:fx="http://javafx.com/fxml/1"
-    fx:controller="com.example.controller.LoginController">
+    fx:controller="com.example.controller.LoginController"
+    prefWidth="400.0" prefHeight="300.0">
+
 
     <Label text="Login"/>
     <TextField fx:id="emailField" promptText="Email"/>

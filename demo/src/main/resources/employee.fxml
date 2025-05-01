@@ -50,6 +50,7 @@
             </padding>
             <children>
                 <Button text="View Pay Statements" onAction="#handleViewPayStatementReport"/>
+                <Button text="Logout" onAction="#handleLogout" /> <!-- Added Logout Button -->
             </children>
         </HBox>
     </bottom>

@@ -15,11 +15,11 @@
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
             <Label text="Admin Dashboard - Employee Information" />
-            <children>
+            <HBox spacing="10">
                 <Button text="Search Employee" onAction="#handleOpenSearchScreen" />
                 <Button text="Add New Employee" onAction="#handleAddEmployee" />
                 <Button text="Edit Employee" onAction="#handleEditEmployee" />
-            </children>
+            </HBox>
         </VBox>
     </top>
 
@@ -53,6 +53,7 @@
                 <Button text="View Division Payments" onAction="#handleViewDivisionPaymentReport"/>
                 <Button text="Update Salaries" onAction="#handleUpdateSalaries" />
                 <Button text="Delete Selected Employee" onAction="#handleDeleteEmployee" />
+                <Button text="Logout" onAction="#handleLogout" /> <!-- Added Logout Button -->
             </children>
         </HBox>
     </bottom>

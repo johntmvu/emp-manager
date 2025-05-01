@@ -242,6 +242,24 @@ public class AdminDashboardController {
     }
 
     @FXML
+    public void handleLogout() {
+        try {
+            // Load the login page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
+            Parent root = loader.load();
+    
+            // Get the current stage and set the login scene
+            Stage stage = (Stage) employeeTable.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Login");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to load the login page: " + e.getMessage());
+        }
+    }
+
+    @FXML
     public void handleOpenSearchScreen() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/search_employee.fxml"));
