@@ -117,6 +117,23 @@ public class EmployeeController implements Initializable {
         }
     }
 
+    @FXML
+    private void handleLogout() {
+        try {
+            // Load the login page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
+            Parent root = loader.load();
+
+            // Get the current stage and set the login scene
+            Stage stage = (Stage) payrollTable.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Login");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void loadPayrollData() {
         String query = """
             SELECT pay_date, earnings, fed_tax, state_tax, retire_401k, health_care

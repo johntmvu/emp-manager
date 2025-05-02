@@ -8,8 +8,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -44,6 +46,9 @@ public class AdminDashboardController {
     @FXML
     private TableColumn<Employee, Double> salaryCol;
 
+    @FXML
+    private TextField searchField; // Add this field
+
     private String DB_URL;
     private String DB_USER;
     private String DB_PASSWORD;
@@ -72,6 +77,28 @@ public class AdminDashboardController {
         jobTitleCol.setCellValueFactory(new PropertyValueFactory<>("jobTitle"));
         divisionCol.setCellValueFactory(new PropertyValueFactory<>("division"));
         salaryCol.setCellValueFactory(new PropertyValueFactory<>("salary"));
+        loadEmployees();
+    }
+
+    @FXML
+    public void handleAddEmployee() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/add_employee.fxml"));
+            Parent root = loader.load();
+
+            AddEmployeeController addEmployeeController = loader.getController();
+            addEmployeeController.setAdminDashboardController(this);
+
+            Stage stage = new Stage();
+            stage.setTitle("Add New Employee");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void reloadEmployeeList() {
         loadEmployees();
     }
 
@@ -109,6 +136,149 @@ public class AdminDashboardController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    @FXML
+    public void handleDeleteEmployee() {
+        Employee selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
+
+        if (selectedEmployee == null) {
+            showAlert("Error", "No employee selected. Please select an employee to delete.");
+            return;
+        }
+
+        String deleteDivisionQuery = "DELETE FROM employee_division WHERE empid = ?";
+        String deleteJobTitleQuery = "DELETE FROM employee_job_titles WHERE empid = ?";
+        String deleteEmployeeQuery = "DELETE FROM employees WHERE empid = ?";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+            // Start a transaction
+            conn.setAutoCommit(false);
+
+            // Delete from employee_division table
+            try (PreparedStatement divisionStmt = conn.prepareStatement(deleteDivisionQuery)) {
+                divisionStmt.setInt(1, selectedEmployee.getId());
+                divisionStmt.executeUpdate();
+            }
+
+            // Delete from employee_job_titles table
+            try (PreparedStatement jobTitleStmt = conn.prepareStatement(deleteJobTitleQuery)) {
+                jobTitleStmt.setInt(1, selectedEmployee.getId());
+                jobTitleStmt.executeUpdate();
+            }
+
+            // Delete from employees table
+            try (PreparedStatement employeeStmt = conn.prepareStatement(deleteEmployeeQuery)) {
+                employeeStmt.setInt(1, selectedEmployee.getId());
+                int rowsDeleted = employeeStmt.executeUpdate();
+
+                if (rowsDeleted > 0) {
+                    conn.commit(); // Commit the transaction
+                    showAlert("Success", "Employee deleted successfully.");
+                    reloadEmployeeList(); // Refresh the employee list
+                } else {
+                    conn.rollback(); // Rollback the transaction if no rows were deleted
+                    showAlert("Error", "Failed to delete the employee.");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Error", "An error occurred: " + e.getMessage());
+        }
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    @FXML
+    public void handleUpdateSalaries() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/update_salaries.fxml"));
+            Parent root = loader.load();
+
+            UpdateSalariesController updateSalariesController = loader.getController();
+            updateSalariesController.setAdminDashboardController(this);
+
+            Stage stage = new Stage();
+            stage.setTitle("Update Salaries");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void handleEditEmployee() {
+        Employee selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
+    
+        if (selectedEmployee == null) {
+            showAlert("Error", "No employee selected. Please select an employee to edit.");
+            return;
+        }
+    
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/edit_employee.fxml"));
+            Parent root = loader.load();
+    
+            EditEmployeeController editEmployeeController = loader.getController();
+            editEmployeeController.setEmployeeId(selectedEmployee.getId());
+            editEmployeeController.setAdminDashboardController(this);
+    
+            Stage stage = new Stage();
+            stage.setTitle("Edit Employee");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Error", "An error occurred: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void handleLogout() {
+        try {
+            // Load the login page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
+            Parent root = loader.load();
+    
+            // Get the current stage and set the login scene
+            Stage stage = (Stage) employeeTable.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Login");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to load the login page: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void handleOpenSearchScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/search_employee.fxml"));
+            Parent root = loader.load();
+
+            SearchEmployeeController searchEmployeeController = loader.getController();
+            searchEmployeeController.setAdminDashboardController(this);
+
+            Stage stage = new Stage();
+            stage.setTitle("Search Employee");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateEmployeeTable(ObservableList<Employee> searchResults) {
+        employeeTable.setItems(searchResults);
     }
 
     @FXML 
@@ -153,4 +323,5 @@ public class AdminDashboardController {
             e.printStackTrace();
         }
     }
+
 }
