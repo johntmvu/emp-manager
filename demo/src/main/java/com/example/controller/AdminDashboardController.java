@@ -46,9 +46,6 @@ public class AdminDashboardController {
     @FXML
     private TableColumn<Employee, Double> salaryCol;
 
-    @FXML
-    private TextField searchField; // Add this field
-
     private String DB_URL;
     private String DB_USER;
     private String DB_PASSWORD;
@@ -77,28 +74,6 @@ public class AdminDashboardController {
         jobTitleCol.setCellValueFactory(new PropertyValueFactory<>("jobTitle"));
         divisionCol.setCellValueFactory(new PropertyValueFactory<>("division"));
         salaryCol.setCellValueFactory(new PropertyValueFactory<>("salary"));
-        loadEmployees();
-    }
-
-    @FXML
-    public void handleAddEmployee() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/add_employee.fxml"));
-            Parent root = loader.load();
-
-            AddEmployeeController addEmployeeController = loader.getController();
-            addEmployeeController.setAdminDashboardController(this);
-
-            Stage stage = new Stage();
-            stage.setTitle("Add New Employee");
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void reloadEmployeeList() {
         loadEmployees();
     }
 
@@ -138,6 +113,27 @@ public class AdminDashboardController {
         }
     }
 
+    public void reloadEmployeeList() {
+        loadEmployees();
+    }
+
+    @FXML
+    public void handleAddEmployee() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/add_employee.fxml"));
+            Parent root = loader.load();
+
+            AddEmployeeController addEmployeeController = loader.getController();
+            addEmployeeController.setAdminDashboardController(this);
+
+            Stage stage = new Stage();
+            stage.setTitle("Add New Employee");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     public void handleDeleteEmployee() {
